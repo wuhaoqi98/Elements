@@ -16,6 +16,7 @@ public class Element : MonoBehaviour {
     protected GameManager gameManager;
     protected Animator animator;
 
+
     /// <summary>
     /// Is called when an Element is instantiated.
     /// </summary>
@@ -25,6 +26,7 @@ public class Element : MonoBehaviour {
         moveSpeed = gameManager.moveSpeed;
         animator = GetComponent<Animator>();
     }
+
 
     /// <summary>
     /// Plays the animation when appearing.
@@ -38,6 +40,7 @@ public class Element : MonoBehaviour {
         animator.SetTrigger("elementAppears");
     }
 
+
     /// <summary>
     /// Returns the x position.
     /// </summary>
@@ -47,6 +50,7 @@ public class Element : MonoBehaviour {
         return xPos;
     }
 
+
     /// <summary>
     /// Returns the y position.
     /// </summary>
@@ -55,6 +59,7 @@ public class Element : MonoBehaviour {
     {
         return yPos;
     }
+
 
     /// <summary>
     /// Sets the x and y positions.
@@ -67,6 +72,7 @@ public class Element : MonoBehaviour {
         xPos = x;
     }
     
+
     /// <summary>
     /// Starts a coroutine to move this Element.
     /// </summary>
@@ -87,6 +93,7 @@ public class Element : MonoBehaviour {
         moveDirection = 0;
     }
     
+
     /// <summary>
     /// Moves to a given postion.
     /// </summary>
@@ -101,6 +108,7 @@ public class Element : MonoBehaviour {
         xPos = x;
         gameManager.elements[yPos, xPos] = this;
     }
+
 
     /// <summary>
     /// React with another Element.

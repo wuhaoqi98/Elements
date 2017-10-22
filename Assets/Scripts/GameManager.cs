@@ -61,6 +61,7 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+
     /// <summary>
     /// Initializes arrays and Adjusts camera.
     /// </summary>
@@ -198,6 +199,7 @@ public class GameManager : MonoBehaviour {
         return elements[y, x];
     }
 
+
     /// <summary>
     /// Instantiates an Element at given position after delay.
     /// </summary>
@@ -215,6 +217,12 @@ public class GameManager : MonoBehaviour {
     }
 
 
+    /// <summary>
+    /// Waits for delay and sets the Element active.
+    /// </summary>
+    /// <param name="elem"></param>
+    /// <param name="delay"></param>
+    /// <returns></returns>
     private IEnumerator SetActiveAfterDelay(Element elem, float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -225,12 +233,22 @@ public class GameManager : MonoBehaviour {
     }
 
 
+    /// <summary>
+    /// Adds score.
+    /// </summary>
+    /// <param name="num"></param>
     public void AddScore(int num)
     {
         StartCoroutine(AddScoreAfterDelay(num, moveTime - 0.1f));
     }
 
 
+    /// <summary>
+    /// Coroutine of adding score.
+    /// </summary>
+    /// <param name="num"></param>
+    /// <param name="delay"></param>
+    /// <returns></returns>
     private IEnumerator AddScoreAfterDelay(int num, float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -249,6 +267,9 @@ public class GameManager : MonoBehaviour {
     }
 
 
+    /// <summary>
+    /// Changes the stage to forrest.
+    /// </summary>
     private void ToForrest()
     {
         GetComponent<SpriteRenderer>().sprite = forrest;
@@ -263,6 +284,9 @@ public class GameManager : MonoBehaviour {
     }
 
 
+    /// <summary>
+    /// Changes the stage to ice age.
+    /// </summary>
     private void ToIceAge()
     {
         GetComponent<SpriteRenderer>().sprite = iceAge;
@@ -277,6 +301,10 @@ public class GameManager : MonoBehaviour {
     }
  
     
+    /// <summary>
+    /// Generates an Element at random position.
+    /// </summary>
+    /// <param name="elemId"></param>
     private void GenerateElemAtRandomPos(int elemId)
     {
         List<Vector3> emptyPos = new List<Vector3>();
@@ -317,6 +345,9 @@ public class GameManager : MonoBehaviour {
     }
 
 
+    /// <summary>
+    /// Generates a random Element id and calls GenerateElemAtRandomPos().
+    /// </summary>
     private void GenerateRandomElement()
     {
         int random = Random.Range(0, 100);
@@ -352,6 +383,10 @@ public class GameManager : MonoBehaviour {
         GenerateElemAtRandomPos(id);
     }
 
+
+    /// <summary>
+    /// Ends the game.
+    /// </summary>
     private void GameOver()
     {
         isGameOver = true;
@@ -360,6 +395,9 @@ public class GameManager : MonoBehaviour {
     }
 
 
+    /// <summary>
+    /// Is called when all Elements on board are cleared.
+    /// </summary>
     private void AllClear()
     {
         StartCoroutine(ShowMessage("All Clear!", 0.8f));
@@ -368,6 +406,12 @@ public class GameManager : MonoBehaviour {
     }
 
 
+    /// <summary>
+    /// Shows message after delay.
+    /// </summary>
+    /// <param name="message"></param>
+    /// <param name="delay"></param>
+    /// <returns></returns>
     private IEnumerator ShowMessage(string message, float delay)
     {
         messageText.GetComponent<Text>().text = message;
@@ -377,6 +421,9 @@ public class GameManager : MonoBehaviour {
     }
 
 
+    /// <summary>
+    /// Moves all Elements left and triggers reactions.
+    /// </summary>
     private void MoveLeft()
     {
         for (int y = 0; y < scale; y++)
@@ -393,6 +440,10 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+
+    /// <summary>
+    /// Moves all Elements right and triggers reactions.
+    /// </summary>
     private void MoveRight()
     {
         for (int y = 0; y < scale; y++)
@@ -409,6 +460,10 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+
+    /// <summary>
+    /// Moves all Elements up and triggers reactions.
+    /// </summary>
     private void MoveUp()
     {
         for(int x = 0; x < scale; x++)
@@ -425,6 +480,10 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+
+    /// <summary>
+    /// Moves all Elements down and triggers reactions.
+    /// </summary>
     private void MoveDown()
     {
         for (int x = 0; x < scale; x++)
