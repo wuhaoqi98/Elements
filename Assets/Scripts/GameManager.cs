@@ -5,25 +5,27 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
-    public int scale = 4;
-    public Element[,] elements;
-    public Vector3[,] grids;
-    public GameObject[] newElems;
+    public int scale = 4; // the scale of board, should be 4 or 5
+    public Element[,] elements; // Elements on the board
+    public Vector3[,] grids; // positions on the board
+    public GameObject[] newElems; // the prefabs of Elements
     public int moveSpeed = 15;
     public float moveTime = 0.55f; // estimated time between movements
-    public float spaceBetweenElements = 2;
-    public int forrestScore = 3000, iceAgeScore = 10000;
-    public Sprite forrest, iceAge;
+    public float spaceBetweenElements = 2; 
+    // the score required to enter different stages
+    public int forrestScore = 3000, iceAgeScore = 10000; 
+    public Sprite forrest, iceAge; // boards for different stages
 
     private int score;
     private bool canMove = true;
     private bool isGameOver = false;
-    private bool isStarted = false;
+    private bool isStarted = false; 
     private Text scoreText;
     private GameObject messageText;
     private GameObject mainCamera;
-    private int firePercentage, waterPercentage, icePercentage, woodPercentage, bigFirePercentage,
-               stonePercentage, acidPercentage;
+    // percentage of different Elements
+    private int firePercentage, waterPercentage, icePercentage, woodPercentage,
+                bigFirePercentage, stonePercentage, acidPercentage;
     private bool inForrest, inIceAge;
 
 
@@ -52,13 +54,16 @@ public class GameManager : MonoBehaviour {
         //InstantiateElem(4, 1, 0);
         //InstantiateElem(0, 4, 3);
 
+        // initial Elements on the board
         for (int i = 0; i < 4; i++)
         {
             GenerateRandomElement();
         }
     }
 
-
+    /// <summary>
+    /// Initializes arrays and Adjusts camera.
+    /// </summary>
     private void InitializeBoard()
     {
         elements = new Element[scale, scale];
@@ -86,10 +91,10 @@ public class GameManager : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if(Input.touchCount > 0)
+        if (canMove && !isGameOver)
         {
-            
-            if (canMove && !isGameOver)
+            // touches control
+            if (Input.touchCount > 0)
             {
                 float dx = Input.GetTouch(0).deltaPosition.x;
                 float dy = Input.GetTouch(0).deltaPosition.y;
@@ -107,7 +112,7 @@ public class GameManager : MonoBehaviour {
                     }
                 }
                 else
-                { 
+                {
                     if (Input.GetTouch(0).deltaPosition.y > 0)
                     {
                         StartCoroutine(CanMoveAfterDelay(moveTime));
@@ -120,10 +125,8 @@ public class GameManager : MonoBehaviour {
                     }
                 }
             }
-        }
-        
-        if (canMove && !isGameOver)
-        {
+
+            // keyboard control
             if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
                 StartCoroutine(CanMoveAfterDelay(moveTime));
@@ -149,6 +152,11 @@ public class GameManager : MonoBehaviour {
     }
 
 
+    /// <summary>
+    /// Prevents controls for a given amount of time.
+    /// </summary>
+    /// <param name="delay"></param>
+    /// <returns></returns>
     private IEnumerator CanMoveAfterDelay(float delay)
     {
         canMove = false;
@@ -174,6 +182,13 @@ public class GameManager : MonoBehaviour {
     }
 
 
+    /// <summary>
+    /// Instantiates an Element at given position.
+    /// </summary>
+    /// <param name="y"></param>
+    /// <param name="x"></param>
+    /// <param name="elemId"></param>
+    /// <returns></returns>
     public Element InstantiateElem(int y, int x, int elemId)
     {
         elements[y, x] = Instantiate(newElems[elemId], grids[y, x], Quaternion.identity).GetComponent<Element>();
@@ -183,7 +198,14 @@ public class GameManager : MonoBehaviour {
         return elements[y, x];
     }
 
-
+    /// <summary>
+    /// Instantiates an Element at given position after delay.
+    /// </summary>
+    /// <param name="y"></param>
+    /// <param name="x"></param>
+    /// <param name="elemId"></param>
+    /// <param name="delay"></param>
+    /// <returns></returns>
     public Element InstantiateElem(int y, int x, int elemId, float delay)
     {
         Element elem = InstantiateElem(y, x, elemId);

@@ -4,18 +4,21 @@ using UnityEngine;
 
 public class Element : MonoBehaviour {
 
-    public int index;
+    public int index; // index of this Element
     [HideInInspector]
     public int moveDirection; // 0 for static, 1 up, 2 down, 3 left, 4 right
     [HideInInspector]
-    public bool canMove = true;
+    public bool canMove = true; 
 
-    protected float moveSpeed;
-    protected float moveTime;
-    protected int xPos, yPos;
+    protected float moveSpeed; // controlled by GameManager
+    protected float moveTime; // controlled by GameManager
+    protected int xPos, yPos; // current position
     protected GameManager gameManager;
     protected Animator animator;
 
+    /// <summary>
+    /// Is called when an Element is instantiated.
+    /// </summary>
     private void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
@@ -23,7 +26,9 @@ public class Element : MonoBehaviour {
         animator = GetComponent<Animator>();
     }
 
-
+    /// <summary>
+    /// Plays the animation when appearing.
+    /// </summary>
     public void Appears()
     {
         if(animator == null)
@@ -33,26 +38,40 @@ public class Element : MonoBehaviour {
         animator.SetTrigger("elementAppears");
     }
 
-
+    /// <summary>
+    /// Returns the x position.
+    /// </summary>
+    /// <returns></returns>
     public int GetX()
     {
         return xPos;
     }
 
-
+    /// <summary>
+    /// Returns the y position.
+    /// </summary>
+    /// <returns></returns>
     public int GetY()
     {
         return yPos;
     }
 
-
+    /// <summary>
+    /// Sets the x and y positions.
+    /// </summary>
+    /// <param name="y"></param>
+    /// <param name="x"></param>
     public void SetPos(int y, int x)
     {
         yPos = y;
         xPos = x;
     }
     
-
+    /// <summary>
+    /// Starts a coroutine to move this Element.
+    /// </summary>
+    /// <param name="pos"></param>
+    /// <returns></returns>
     private IEnumerator MoveTo(Vector3 pos)
     {
         canMove = false;
@@ -68,6 +87,11 @@ public class Element : MonoBehaviour {
         moveDirection = 0;
     }
     
+    /// <summary>
+    /// Moves to a given postion.
+    /// </summary>
+    /// <param name="y"></param>
+    /// <param name="x"></param>
     public virtual void Move(int y, int x)
     {
         moveTime = Mathf.Abs(y - yPos + x - xPos) / moveSpeed * 2;
@@ -78,6 +102,11 @@ public class Element : MonoBehaviour {
         gameManager.elements[yPos, xPos] = this;
     }
 
+    /// <summary>
+    /// React with another Element.
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns></returns>
     public virtual Element ReactWith(Element other)
     {
         if(other == null)
@@ -102,14 +131,12 @@ public class Element : MonoBehaviour {
         return null;
     }
     
-    public void Disable()
-    {
-        gameManager.elements[yPos, xPos] = null;
-    }
 
-    /**
-     * In case there are elements before the reaction.
-     */
+    /// <summary>
+    /// When reaction results in nothing, this method returns the possible 
+    /// Element before the reaction position.
+    /// </summary>
+    /// <returns></returns>
     protected Element CheckPreviousElem()
     {
         int scale = gameManager.scale;
